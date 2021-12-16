@@ -1,35 +1,49 @@
 const { Bill } = require('../models/Schema')
 
-const CreateBill = async (req, res) => {
+
+const getBill = async (req, res, next) => {
+    // console.log("req params: ", req.params);
+    const { billID } = req.params
+
+    const bill = await Bill.findById(billID)
+    // console.log("user info", user)
+
+    return res.status(200).json({ bill })
+}
+const index = async (req, res, next) => {
+    const bills = await Bill.find({})
+    return res.status(200).json({ bills })
+}
+
+
+const newBill = async (req, res) => {
     try {
-        const newBill = req.body;
 
-        const bill = new Bill(newBill);
-        await bill.save();
+        const newBill = new Bill(req.body);
+        await newBill.save();
 
-        res.status(200).json(bill)
+        res.status(201).json({ bill: newBill })
     } catch (err) {
         res.status(500).json({ error: err })
     }
 }
-// app.use('/bill', Bill)
-const GetBill = async (req, res) => {
-    const bills = await Bill.find({})
-    return res.status(200).json({ bills })
+
+const replaceBill = async (req, res, next) => {
+    const { billID } = req.params
+    const newBill = req.body
+    const result = await Bill.findByIdAndUpdate(billID, newBill)
+    return res.status(200).json({ success: true })
 }
-const UpadteBill = async (req, res) => {
-    try {
-        const UpadteBill = req.body;
 
-        const bill = await Bill.findOneAndUpdate(
-            { _id: UpadteBill._id },
-            UpadteBill,
-            { new: true }
-        );
 
-        res.status(200).json(bill);
-    } catch (err) {
-        res.status(500).json({ error: err });
-    }
-};
-module.exports = { GetBill, CreateBill, UpadteBill }
+const updateBill = async (req, res, next) => {
+    const { billID } = req.params;
+    const newBill = req.body;
+    const result = await Bill.findByIdAndUpdate(billID, newBill)
+
+    return res.status(200).json({ success: true })
+}
+
+
+
+module.exports = { index, newBill, replaceBill, updateBill, getBill }

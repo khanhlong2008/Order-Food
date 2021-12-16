@@ -35,10 +35,12 @@ const UserSchema = new mongoose.Schema({
     Role: [
         {
             User: {
-                type: String
+                type: Number,
+                default: 0
             },
             Driver: {
-                type: String
+                type: Number,
+                default: 0
             }
         }
     ]
@@ -93,7 +95,8 @@ const RestaurantSchema = new mongoose.Schema({
         },
     ],
     Rate: {
-        type: Number
+        type: Number,
+        default: 0
     }
 })
 const Restaurant = mongoose.model('Restaurant', RestaurantSchema);
@@ -130,7 +133,20 @@ const BillingSchema = new mongoose.Schema({
                 type: Number
             }
         }
-    ]
+    ],
+    Status: {
+        type: String
+    },
+    Rate: {
+        type: Number,
+        default: 0
+    },
+
+}, {
+    timestamps: {
+        createdAt: 'created_at',
+        updatedAt: 'updated_at'
+    }
 })
 const Bill = mongoose.model('Bill', BillingSchema);
 module.exports = { User, Restaurant, Bill };

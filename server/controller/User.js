@@ -22,9 +22,14 @@ const index = async (req, res, next) => {
 }
 
 const newUser = async (req, res, next) => {
-    const newUser = new User(req.body)
-    await newUser.save();
-    return res.status(201).json({ user: newUser })
+    try {
+        const newUser = new User(req.body)
+        await newUser.save();
+        return res.status(201).json({ user: newUser })
+    }
+    catch (err) {
+        res.status(500).json({ error: err })
+    }
 }
 const replaceUser = async (req, res, next) => {
     const { userID } = req.params
@@ -39,12 +44,6 @@ const updateUser = async (req, res, next) => {
     const result = await User.findByIdAndUpdate(userID, newUser)
     return res.status(200).json({ success: true })
 }
-
-
-
-
-
-
 
 
 
