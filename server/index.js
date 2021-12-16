@@ -6,7 +6,9 @@ const mongoose = require('mongoose');
 const Register = require('./authentication/Register.js');
 const Login = require('./authentication/Login.js');
 const Bill = require('./Routes/Bill/Bill')
-const { GetRes, UpdateRes } = require('./controller/Res')
+const Res = require('./Routes/Restaurant/Res');
+const User = require('./Routes/User/User')
+// const { GetRes, UpdateRes } = require('./controller/Res')
 dotenv.config();
 
 const app = express();
@@ -22,13 +24,16 @@ app.use(express.json())
 app.post('/login', Login)
 app.post('/register', Register)
 
+//user
+app.use('/user', User)
 
 //bill
 app.use('/bill', Bill)
 
 //res
-app.get('/restaurant', GetRes)
-app.post('/restaurant/update', UpdateRes)
+app.use('/restaurant', Res)
+// app.get('/restaurant', GetRes)
+// app.post('/restaurant/update', UpdateRes)
 
 
 app.get('/me', (req, res) => {

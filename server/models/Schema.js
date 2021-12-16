@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 
 const UserSchema = new mongoose.Schema({
     FirstName: {
@@ -43,6 +43,30 @@ const UserSchema = new mongoose.Schema({
         }
     ]
 })
+// // su dung normal fnc de su dung dc this.
+// UserSchema.pre('save', async function (next) {
+//     try {
+//         console.log('password', this.password)
+//         const salt = await bcrypt.genSalt(10);
+//         console.log("salt", salt)
+//         const passwordHashed = await bcrypt.hash(this.password, salt)
+//         console.log('passwordHashed', passwordHashed)
+//         this.password = passwordHashed;
+//         next();
+//     } catch (err) { next(err) }
+// })
+
+
+// UserSchema.methods.isValidPassword = async function (newPassword) {
+//     try {
+//         return await bcrypt.compare(newPassword, this.password)
+
+//     }
+//     catch (err) {
+//         throw new Error(err)
+//     }
+// }
+
 const User = mongoose.model('User', UserSchema);
 
 const RestaurantSchema = new mongoose.Schema({
@@ -52,7 +76,7 @@ const RestaurantSchema = new mongoose.Schema({
     OpenTime: {
         type: String
     },
-    Food: [
+    Food: [ 
         {
             FoodName: {
                 type: String
