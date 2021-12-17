@@ -1,6 +1,15 @@
 const { User } = require('../models/Schema')
+const jwt = require('jsonwebtoken');
+const { JWT_SECRET } = require('../configs')
 
-
+const encodeToken = (userID) => {
+  return jwt.sign({
+    iss: "Khanh Long",
+    sub: userID,
+    iat: new Date().getTime(),
+    exp: new Date().setDate(new Date().getDate() + 3)
+  }, JWT_SECRET)
+}
 
 const getUser = async (req, res, next) => {
   try {
@@ -51,25 +60,29 @@ const updateUser = async (req, res, next) => {
 }
 
 const signUp = async (req, res, next) => {
-  console.log('call to signup')
-  // const { FirstName, LastName, PhoneNumber, Password, AvatarURL, Address, Role } = req.body
-
-  // const foundUser = await User.findOne({ PhoneNumber })
+  // console.log('call to signup')
+  const { FirstName, LastName, PhoneNumber, Password, AvatarURL, Address, Role } = req.body
+  // check if there is a user with the same user
+  const foundUser = await User.findOne({ PhoneNumber })
   // console.log('found user', foundUser)
-  // if (foundUser) return res.status(403).json({ error: { message: 'PhoneNumber is already is use' } })
-
-  const newUser = new User(req.body)
-  console.log(newUser)
-  await newUser.save();
-
+  if (foundUser) return res.status(403).json({ error: { message: 'PhoneNumber is already is use' } })
+  // create a new user
+  const newUser = new User({ FirstName, LastName, PhoneNumber, Password, AvatarURL, Address, Role })
+  // console.log(newUser)
+  newUser.save();
+  //encode 
+  const token = encodeToken(newUser._id)
+  res.setHeader('Authorization', token)
   return res.status(201).json({ success: true })
 }
+
 const signIn = async (req, res, next) => {
   console.log('call to signin')
 }
 
 const secret = async (req, res, next) => {
-  console.log('call tp secret')
+
+  return res.status(200).json({ resource: true })
 }
 
 module.exports = {

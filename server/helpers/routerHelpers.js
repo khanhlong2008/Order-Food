@@ -37,6 +37,16 @@ const validateParam = (schema, name) => {
 }
 
 const schemas = {
+  authSignUpSchema: Joi.object().keys({
+    FirstName: Joi.string().min(2),
+    LastName: Joi.string().min(2),
+    PhoneNumber: Joi.number(),
+    Password: Joi.string().min(8).required(),
+  }),
+  authSignInSchema: Joi.object().keys({
+    PhoneNumber: Joi.number(),
+    Password: Joi.string().min(8).required(),
+  }),
   isSchema: Joi.object().keys({
     param: Joi.string().regex(/^[0-9a-fA-F]{24}$/).required()
   }),
