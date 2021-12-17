@@ -12,24 +12,24 @@ const { Restaurant } = require('../models/Schema')
 //         res.status(500).json({ error: err })
 //     }
 // }
-const GetRes = async (req, res) => {
+const index = async (req, res) => {
     const ress = await Restaurant.find({})
     return res.status(200).json({ ress })
 }
-const UpdateRes = async (req, res) => {
-    try {
-        const UpdateRes = req.body;
+const replaceRes = async (req, res) => {
 
-        const ress = await Restaurant.findOneAndUpdate(
-            { _id: UpdateRes._id },
-            UpdateRes,
-            { new: true }
-        );
+  const { RestaurantID } = req.params;
+  const newRestaurant = req.body;
 
-        res.status(200).json(ress);
-    } catch (err) {
-        res.status(500).json({ error: err });
-    }
+  const result = await Restaurant.findByIdAndUpdate(RestaurantID, newRestaurant)
+  return res.status(200).json({ success: true })
 };
-module.exports = { GetRes, UpdateRes }
-// module.exports = CreateRes
+const updateRes = async (req, res) => {
+
+  const { RestaurantID } = req.params;
+  const newRestaurant = req.body;
+
+  const result = await Restaurant.findByIdAndUpdate(RestaurantID, newRestaurant)
+  return res.status(200).json({ success: true })
+};
+module.exports = { index, replaceRes, updateRes }

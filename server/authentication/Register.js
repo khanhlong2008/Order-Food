@@ -4,7 +4,7 @@ const Register = async (req, res) => {
     try {
         // const post = new PostModel({
         //     username: "alice",
-        //     password: "1234546",
+        //     Password: "1234546",
         // })
         // post.save();
         const newUser = req.body;

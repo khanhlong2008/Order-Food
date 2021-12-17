@@ -1,14 +1,14 @@
 const { User } = require('../models/Schema.js')
 const jwt = require('jsonwebtoken');
-
+const router = require("express-promise-router")()
 const Login = (req, res) => {
-    const { PhoneNumber, password } = req.body
+  const { PhoneNumber, Password } = req.body
     User.findOne({
         PhoneNumber: PhoneNumber
     }, (err, user) => {
         if (user) {
             if (user) {
-                if (password === user.password) {
+              if (Password === user.Password) {
                     const token = jwt.sign(
                         {
                             PhoneNumber: user.PhoneNumber,
@@ -22,7 +22,7 @@ const Login = (req, res) => {
                     res.json({
                         user: {
                             PhoneNumber: user.PhoneNumber,
-                            // password: user.password,
+                            // Password: user.Password,
 
                         },
 
@@ -39,6 +39,9 @@ const Login = (req, res) => {
     })
 
 }
+
+
+
 
 module.exports = Login
 
