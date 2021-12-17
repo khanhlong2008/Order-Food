@@ -27,7 +27,7 @@ const validateParam = (schema, name) => {
       // console.log('1', req.value)
       if (!req.value) req.value = {};
       // console.log('2', req.value.params)
-      if (!req.value.params) req.value.params = {};
+      if (!req.value['params']) req.value.params = {};
       // console.log('3', req.value)
       req.value.params[name] = req.params[name]
       // console.log('req value', req.value)
@@ -37,14 +37,14 @@ const validateParam = (schema, name) => {
 }
 
 const schemas = {
-  authSignUpSchema: Joi.object().keys({
-    FirstName: Joi.string().min(2),
-    LastName: Joi.string().min(2),
-    PhoneNumber: Joi.number(),
+  authSignInSchema: Joi.object().keys({
+    PhoneNumber: Joi.string().min(10).required(),
     Password: Joi.string().min(8).required(),
   }),
-  authSignInSchema: Joi.object().keys({
-    PhoneNumber: Joi.number(),
+  authSignUpSchema: Joi.object().keys({
+    FirstName: Joi.string().min(2).required(),
+    LastName: Joi.string().min(2).required(),
+    PhoneNumber: Joi.string().min(10).required(),
     Password: Joi.string().min(8).required(),
   }),
   isSchema: Joi.object().keys({
@@ -56,7 +56,7 @@ const schemas = {
     LastName: Joi.string().min(2).required(),
     Password: Joi.string().min(8).required(),
     AvatarURL: Joi.string(),
-    PhoneNumber: Joi.number().required(),
+    PhoneNumber: Joi.string().min(10).required(),
 
     Role: Joi.object().keys({
       User: Joi.number().min(1),
@@ -73,7 +73,7 @@ const schemas = {
     LastName: Joi.string().min(2),
     Password: Joi.string().min(8),
     AvatarURL: Joi.string(),
-    PhoneNumber: Joi.number(),
+    PhoneNumber: Joi.string().min(10),
 
     Role: Joi.object().keys({
       User: Joi.number().min(1),
@@ -88,6 +88,6 @@ const schemas = {
 
 module.exports = {
   validateParam,
+  validateBody,
   schemas,
-  validateBody
 }

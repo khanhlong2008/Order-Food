@@ -21,8 +21,8 @@ app.use(express.json())
 
 
 //auth
-app.post('/login', Login)
-app.post('/register', Register)
+// app.post('/login', Login)
+// app.post('/register', Register)
 //user
 app.use('/user', User)
 //bill
@@ -34,7 +34,7 @@ app.use('/restaurant', Res)
 mongoose
     .connect(URI, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => {
-        console.log('Connected to DB');
+      console.log('✅ Connected database from mongodb.');
         app.listen(5000, () => {
             console.log(`Server is running on port 5000`);
         });

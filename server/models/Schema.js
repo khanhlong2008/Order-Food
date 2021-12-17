@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-// const bcrypt = require('bcryptjs');
+const bcrypt = require('bcryptjs');
 
 const UserSchema = new mongoose.Schema({
   FirstName: {
@@ -11,7 +11,7 @@ const UserSchema = new mongoose.Schema({
     required: true,
   },
   PhoneNumber: {
-    type: Number,
+    type: String,
     required: true,
     unique: true,
   },
@@ -32,31 +32,31 @@ const UserSchema = new mongoose.Schema({
   },
 
 })
-// // su dung normal fnc de su dung dc this.
-// UserSchema.pre('save', async function (next) {
-//     try {
-//         console.log('password', this.password)
-//         const salt = await bcrypt.genSalt(10);
-//         console.log("salt", salt)
-//         const passwordHashed = await bcrypt.hash(this.password, salt)
-//         console.log('passwordHashed', passwordHashed)
-//         this.password = passwordHashed;
-//         next();
-//     } catch (err) { next(err) }
-// })
+// su dung normal fnc de su dung dc this.
+UserSchema.pre('save', async function (next) {
+  try {
+    // console.log('password', this.Password)
+    const salt = await bcrypt.genSalt(10);
+    // console.log("salt", salt)
+    const passwordHashed = await bcrypt.hash(this.Password, salt)
+    // console.log('passwordHashed', passwordHashed)
+    this.Password = passwordHashed;
+    next()
+  } catch (err) {
+    next(err)
+  }
+})
 
 
-// UserSchema.methods.isValidPassword = async function (newPassword) {
-//     try {
-//         return await bcrypt.compare(newPassword, this.password)
+UserSchema.methods.isValidPassword = async function (newPassword) {
+  try {
+    return await bcrypt.compare(newPassword, this.Password)
+  } catch (error) {
+    throw new Error(error)
+  }
+}
 
-//     }
-//     catch (err) {
-//         throw new Error(err)
-//     }
-// }
 
-const User = mongoose.model('User', UserSchema);
 
 const RestaurantSchema = new mongoose.Schema({
   Name: {
@@ -86,7 +86,6 @@ const RestaurantSchema = new mongoose.Schema({
     default: 0
   }
 })
-const Restaurant = mongoose.model('Restaurant', RestaurantSchema);
 
 const BillingSchema = new mongoose.Schema({
   UserID: {
@@ -135,5 +134,10 @@ const BillingSchema = new mongoose.Schema({
     updatedAt: 'updated_at'
   }
 })
+
+
+const User = mongoose.model('User', UserSchema);
+const Restaurant = mongoose.model('Restaurant', RestaurantSchema);
 const Bill = mongoose.model('Bill', BillingSchema);
+
 module.exports = { User, Restaurant, Bill };

@@ -39,8 +39,8 @@ const newUser = async (req, res, next) => {
 }
 const replaceUser = async (req, res, next) => {
   try {
-    const { userID } = req.params
-    const newUser = req.body
+    const { userID } = req.value.params
+    const newUser = req.value.body
     const result = await User.findByIdAndUpdate(userID, newUser)
     return res.status(200).json({ success: true })
   } catch (err) {
@@ -50,8 +50,8 @@ const replaceUser = async (req, res, next) => {
 
 const updateUser = async (req, res, next) => {
   try {
-    const { userID } = req.params
-    const newUser = req.body
+    const { userID } = req.value.params
+    const newUser = req.value.body
     const result = await User.findByIdAndUpdate(userID, newUser)
     return res.status(200).json({ success: true })
   } catch (err) {
@@ -61,7 +61,7 @@ const updateUser = async (req, res, next) => {
 
 const signUp = async (req, res, next) => {
   // console.log('call to signup')
-  const { FirstName, LastName, PhoneNumber, Password, AvatarURL, Address, Role } = req.body
+  const { FirstName, LastName, PhoneNumber, Password, AvatarURL, Address, Role } = req.value.body
   // check if there is a user with the same user
   const foundUser = await User.findOne({ PhoneNumber })
   // console.log('found user', foundUser)
@@ -78,6 +78,11 @@ const signUp = async (req, res, next) => {
 
 const signIn = async (req, res, next) => {
   console.log('call to signin')
+  console.log(req.user)
+  const token = encodeToken(req.user._id)
+
+  res.setHeader('Authorization', token)
+  return res.status(200).json({ success: true })
 }
 
 const secret = async (req, res, next) => {
