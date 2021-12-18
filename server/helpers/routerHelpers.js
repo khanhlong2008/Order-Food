@@ -9,7 +9,7 @@ const validateBody = (schema) => {
     } else {
       if (!req.value) req.value = {};
       if (!req.value['params']) req.value.params = {};
-      // console.log(' validatorResult', validatorResult);
+      console.log(' validatorResult', validatorResult);
       req.value.body = validatorResult.value
       next();
     }
@@ -52,7 +52,7 @@ const schemas = {
   }),
 
   userSchema: Joi.object().keys({
-    FirstName: Joi.string().min(2).required(),
+    FirstName: Joi.string().min(2).required(), 
     LastName: Joi.string().min(2).required(),
     Password: Joi.string().min(8).required(),
     AvatarURL: Joi.string(),
@@ -83,7 +83,61 @@ const schemas = {
       long: Joi.number(),
       lat: Joi.number()
     }),
-  })
+  }),
+
+
+  ResSchema: Joi.object().keys({
+    Name: Joi.string().min(2).required(),
+    OpenTime: Joi.string().min(2).required(),
+    Food: Joi.object().keys({
+      FoodName: Joi.string().min(1),
+      Price: Joi.number().min(5),
+      Overview: Joi.string().min(5),
+      ImgFood: Joi.string()
+    }),
+    Rate: Joi.number()
+  }),
+
+  ResOptionalSchema: Joi.object().keys({
+    Name: Joi.string().min(2),
+    OpenTime: Joi.string().min(2),
+    Food: Joi.object().keys({
+      FoodName: Joi.string().min(1),
+      Price: Joi.number().min(5),
+      Overview: Joi.string().min(5),
+      ImgFood: Joi.string()
+    }),
+    Rate: Joi.number()
+  }),
+
+
+  billSchema: Joi.object().keys({
+    UserID: Joi.string().min(1),
+    RestaurantID: Joi.string().min(1),
+    DriverID: Joi.string().min(1),
+    Food: Joi.object().keys({
+      FoodName: Joi.string().min(1),
+      Price: Joi.number().min(5),
+      Description: Joi.string().min(5),
+      Amout: Joi.number(),
+      Cash: Joi.number(),
+    }),
+    Rate: Joi.number()
+  }),
+
+  billOptionnalSchema: Joi.object().keys({
+    UserID: Joi.string().min(1),
+    RestaurantID: Joi.string().min(1),
+    DriverID: Joi.string().min(1),
+    Food: Joi.object().keys({
+      FoodName: Joi.string().min(1),
+      Price: Joi.number().min(5),
+      Description: Joi.string().min(5),
+      Amout: Joi.number(),
+      Cash: Joi.number(),
+    }),
+    Rate: Joi.number()
+  }),
 }
 
 module.exports = {

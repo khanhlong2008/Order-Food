@@ -1,6 +1,8 @@
 const { User } = require('../models/Schema')
 const jwt = require('jsonwebtoken');
 const { JWT_SECRET } = require('../configs')
+const AuthController = require('../controller/auth')
+
 
 const encodeToken = (userID) => {
   return jwt.sign({
@@ -47,7 +49,6 @@ const replaceUser = async (req, res, next) => {
     res.status(500).json({ error: err })
   }
 }
-
 const updateUser = async (req, res, next) => {
   try {
     const { userID } = req.value.params
@@ -61,28 +62,40 @@ const updateUser = async (req, res, next) => {
 
 const signUp = async (req, res, next) => {
   // console.log('call to signup')
-  const { FirstName, LastName, PhoneNumber, Password, AvatarURL, Address, Role } = req.value.body
+  const { PhoneNumber, Password, FirstName, LastName } = req.value.body
   // check if there is a user with the same user
   const foundUser = await User.findOne({ PhoneNumber })
   // console.log('found user', foundUser)
   if (foundUser) return res.status(403).json({ error: { message: 'PhoneNumber is already is use' } })
   // create a new user
-  const newUser = new User({ FirstName, LastName, PhoneNumber, Password, AvatarURL, Address, Role })
-  // console.log(newUser)
+  // const newUser = new User({ PhoneNumber, Password })
+  const user = await AuthController.signUpAuth(PhoneNumber, Password)
+  const newUser = new User({
+    PhoneNumber,
+    salt: user.salt,
+    hashed: user.hashed,
+    LastName,
+    FirstName,
+    Password
+  })
   newUser.save();
   //encode 
   const token = encodeToken(newUser._id)
   res.setHeader('Authorization', token)
-  return res.status(201).json({ success: true })
+  return res.status(201).json({ success: true, token })
 }
 
 const signIn = async (req, res, next) => {
-  console.log('call to signin')
-  console.log(req.user)
-  const token = encodeToken(req.user._id)
+  // console.log('call to signin')
+  const { userID } = req.value.params
+
+  // const user = await AuthController.signInAuth(PhoneNumber, Password)
+  console.log(userID)
+
+  const token = encodeToken()
 
   res.setHeader('Authorization', token)
-  return res.status(200).json({ success: true })
+  return res.status(200).json({ success: true, token })
 }
 
 const secret = async (req, res, next) => {
