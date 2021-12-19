@@ -38,31 +38,6 @@ const UserSchema = new mongoose.Schema({
     type: String
   }
 })
-// UserSchema.methods.verifyPassword = async function(newPassword) {
-//   const { userID } =
-// }
-// su dung normal fnc de su dung dc this.
-// UserSchema.pre('save', async function (next) {
-//   try {
-//     // console.log('password', this.Password)
-//     const salt = await bcrypt.genSalt(10);
-//     // console.log("salt", salt)
-//     const passwordHashed = await bcrypt.hash(this.Password, salt)
-//     // console.log('passwordHashed', passwordHashed)
-//     this.Password = passwordHashed;
-//     next();
-//   } catch (err) {
-//     next(err)
-//   }
-// })
-
-// UserSchema.methods.isValidPassword = async function (newPassword) {
-//   try {
-//     return await bcrypt.compare(newPassword, this.password)
-//   } catch (error) {
-//     throw new Error(error)
-//   }
-// }
 
 const User = mongoose.model('User', UserSchema);
 

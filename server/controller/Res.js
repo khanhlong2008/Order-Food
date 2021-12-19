@@ -29,7 +29,7 @@ const replaceRes = async (req, res) => {
 
   try {
     const { restaurantID } = req.value.params;
-    const newRestaurant = req.value.body;
+    const newRestaurant = req.body;
 
     const result = await Restaurant.findByIdAndUpdate(restaurantID, newRestaurant)
   return res.status(200).json({ success: true })
@@ -41,7 +41,7 @@ const updateRes = async (req, res) => {
 
   try {
     const { restaurantID } = req.value.params
-    const newRestaurant = req.value.body
+    const newRestaurant = req.body
 
     const result = await Restaurant.findByIdAndUpdate(restaurantID, newRestaurant)
   return res.status(200).json({ success: true })

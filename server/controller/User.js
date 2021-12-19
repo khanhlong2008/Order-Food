@@ -41,8 +41,8 @@ const newUser = async (req, res, next) => {
 }
 const replaceUser = async (req, res, next) => {
   try {
-    const { userID } = req.value.params
-    const newUser = req.value.body
+    const { userID } = req.params
+    const newUser = req.body
     const result = await User.findByIdAndUpdate(userID, newUser)
     return res.status(200).json({ success: true })
   } catch (err) {
@@ -51,8 +51,8 @@ const replaceUser = async (req, res, next) => {
 }
 const updateUser = async (req, res, next) => {
   try {
-    const { userID } = req.value.params
-    const newUser = req.value.body
+    const { userID } = req.params
+    const newUser = req.body
     const result = await User.findByIdAndUpdate(userID, newUser)
     return res.status(200).json({ success: true })
   } catch (err) {
@@ -76,7 +76,6 @@ const signUp = async (req, res, next) => {
     hashed: user.hashed,
     LastName,
     FirstName,
-    Password
   })
   newUser.save();
   //encode 
@@ -87,15 +86,14 @@ const signUp = async (req, res, next) => {
 
 const signIn = async (req, res, next) => {
   // console.log('call to signin')
-  const { userID } = req.value.params
+  const { PhoneNumber, Password } = req.value.body
+  console.log(PhoneNumber, Password)
+  const newUser = await AuthController.signInAuth(PhoneNumber, Password)
 
-  // const user = await AuthController.signInAuth(PhoneNumber, Password)
-  console.log(userID)
-
-  const token = encodeToken()
+  const token = encodeToken(req._id)
 
   res.setHeader('Authorization', token)
-  return res.status(200).json({ success: true, token })
+  return res.status(200).json({ success: true })
 }
 
 const secret = async (req, res, next) => {
@@ -113,3 +111,4 @@ module.exports = {
   signIn,
   secret
 }
+

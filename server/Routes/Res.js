@@ -10,7 +10,7 @@ router.route('/')
 
 router.route('/:restaurantID')
   .get(validateParam(schemas.isSchema, 'restaurantID'), RestaurantController.getRes)
-  .put(validateParam(schemas.isSchema, 'restaurantID'), validateBody(schemas.ResSchema), RestaurantController.replaceRes)
-  .patch(validateParam(schemas.isSchema, 'restaurantID'), validateBody(schemas.ResOptionalSchema), RestaurantController.updateRes)
+  .put(validateParam(schemas.isSchema, 'restaurantID'), RestaurantController.replaceRes)
+  .patch(validateParam(schemas.isSchema, 'restaurantID'), RestaurantController.updateRes)
 
 module.exports = router;

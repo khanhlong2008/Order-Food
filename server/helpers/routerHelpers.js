@@ -3,7 +3,7 @@ const Joi = require('@hapi/joi')
 
 const validateBody = (schema) => {
   return (req, res, next) => {
-    const validatorResult = schema.validate(req.body);
+    // const validatorResult = schema.validate(req.body);
     if (validatorResult.error) {
       return res.status(400).json(validatorResult.error);
     } else {
