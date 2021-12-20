@@ -2,13 +2,17 @@ const { Bill } = require('../models/Schema')
 
 
 const getBill = async (req, res, next) => {
-    // console.log("req params: ", req.params);
-  const { billID } = req.value.params
+  try {
+      // console.log("req params: ", req.params);
+    const { billID } = req.params
 
     const bill = await Bill.findById(billID)
-    // console.log("user info", user)
+  // console.log("user info", user)
 
     return res.status(200).json({ bill })
+  } catch (err) {
+    res.status(500).json({ error: err })
+  }
 }
 const index = async (req, res, next) => {
     const bills = await Bill.find({})
@@ -29,16 +33,11 @@ const newBill = async (req, res) => {
     }
 }
 
-const replaceBill = async (req, res, next) => {
-  const { billID } = req.value.params
-    const newBill = req.body
-    const result = await Bill.findByIdAndUpdate(billID, newBill)
-    return res.status(200).json({ success: true })
-}
+
 
 
 const updateBill = async (req, res, next) => {
-  const { billID } = req.value.params;
+  const { billID } = req.params;
   const newBill = req.body;
     const result = await Bill.findByIdAndUpdate(billID, newBill)
 
@@ -47,4 +46,4 @@ const updateBill = async (req, res, next) => {
 
 
 
-module.exports = { index, newBill, replaceBill, updateBill, getBill }
+module.exports = { index, newBill, updateBill, getBill }

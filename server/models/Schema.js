@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 
-const UserSchema = new mongoose.Schema({
+const UserSchema = new mongoose.Schema({ 
 
   FirstName: {
     type: String,
@@ -45,7 +45,7 @@ const RestaurantSchema = new mongoose.Schema({
   Name: {
     type: String
   },
-  OpenTime: {
+  Opentime: {
     type: String
   },
   Food: [
@@ -67,7 +67,11 @@ const RestaurantSchema = new mongoose.Schema({
   Rate: {
     type: Number,
     default: 0
-  }
+  },
+  address: {
+    long: Number,
+    lat: Number,
+  },
 })
 const Restaurant = mongoose.model('Restaurant', RestaurantSchema);
 

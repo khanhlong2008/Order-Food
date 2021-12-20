@@ -23,6 +23,16 @@ const signInAuth = async (PhoneNumber, Password) => {
     throw new Error("Password is not correct!");
   }
 }
+const updatePassword = async (PhoneNumber, Password) => {
+
+  const user = {
+    PhoneNumber: PhoneNumber
+  };
+  const { salt, hashed } = generatePassword(Password);
+  user.salt = salt;
+  user.hashed = hashed;
+  return user
+}
 const generatePassword = (password) => {
   //key
   const salt = crypto.randomBytes(128).toString("base64");
@@ -50,5 +60,6 @@ const verifyPassword = (password, salt, hashedPassword) => {
 
 module.exports = {
   signUpAuth,
-  signInAuth
+  signInAuth,
+  updatePassword
 }

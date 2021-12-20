@@ -25,7 +25,7 @@ app.use('/bill', Bill)
 app.use('/restaurant', Res)
 
 mongoose
-  .connect('mongodb://localhost/orderfood',
+  .connect('mongodb://localhost:27017/orderfood',
     { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => {
     console.log('✅ Connected database from mongodb.');

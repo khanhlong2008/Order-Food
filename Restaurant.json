@@ -64,7 +64,11 @@
                 "ImgFood": "https://www.hoidaubepaau.com/wp-content/uploads/2018/07/bi-heo-tron-thinh.jpg"
             }
         ],
-        "Rate": 1
+        "Rate": 1,
+        "address": {
+            "long": 10.7333968,
+            "lat": 106.62573549999999
+        }
     },
     {
         "Name": "Hủ Tiếu Nam Vang Thành Đạt",
@@ -119,7 +123,11 @@
                 "ImgFood": "https://i.ytimg.com/vi/dwsnrW_bneI/maxresdefault.jpg"
             }
         ],
-        "Rate": 1
+        "Rate": 1,
+        "address": {
+            "long": 10.765537122680971,
+            "lat": 106.695441898181
+        }
     },
     {
         "Name": "Phở Hùng",
@@ -168,7 +176,11 @@
                 "ImgFood": "https://d1sag4ddilekf6.azureedge.net/compressed/items/VNITE2021061703324028703/photo/menueditor_item_1708cb2ee01543cf91bec4d1c71b272e_1623900729925433236.jpg"
             }
         ],
-        "Rate": 1
+        "Rate": 1,
+        "address": {
+            "long": 10.765537122680971,
+            "lat": 106.695441898181
+        }
     },
     {
         "Name": "Dominos Pizza",
@@ -222,7 +234,11 @@
                 "ImgFood": "https://stc.shopiness.vn/deal/2021/04/27/3/6/0/a/1619495579843_540.png"
             }
         ],
-        "Rate": 1
+        "Rate": 1,
+        "address": {
+            "long": 10.765537122680971,
+            "lat": 106.695441898181
+        }
     },
     {
         "Name": "Kirin Sushi - Sushi - Hoàng Ngân",
@@ -277,7 +293,11 @@
                 "ImgFood": "http://bizweb.dktcdn.net/thumb/grande/100/227/495/articles/6-087d65e0-e006-4826-9a2f-0904799c605d.jpg?v=1610781587623"
             }
         ],
-        "Rate": 1
+        "Rate": 1,
+        "address": {
+            "long": 10.765537122680971,
+            "lat": 106.695441898181
+        }
     }
 ]
 

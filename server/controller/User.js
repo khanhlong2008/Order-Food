@@ -15,7 +15,7 @@ const encodeToken = (userID) => {
 
 const getUser = async (req, res, next) => {
   try {
-    const { userID } = req.value.params
+    const { userID } = req.params
     const user = await User.findById(userID)
     return res.status(200).json({ user })
   } catch (err) {
@@ -30,7 +30,7 @@ const index = async (req, res, next) => {
 
 const newUser = async (req, res, next) => { 
     try {
-      const newUser = new User(req.value.body)
+      const newUser = new User(req.body)
         await newUser.save();
         return res.status(201).json({ user: newUser })
     }
@@ -39,30 +39,40 @@ const newUser = async (req, res, next) => {
       res.status(500).json({ error: err })
     }
 }
-const replaceUser = async (req, res, next) => {
-  try {
-    const { userID } = req.params
-    const newUser = req.body
-    const result = await User.findByIdAndUpdate(userID, newUser)
-    return res.status(200).json({ success: true })
-  } catch (err) {
-    res.status(500).json({ error: err })
-  }
-}
 const updateUser = async (req, res, next) => {
   try {
     const { userID } = req.params
-    const newUser = req.body
+    // const newUser = req.body
+    const { PhoneNumber, Password, FirstName, LastName } = req.body
+    const user = await AuthController.updatePassword(PhoneNumber, Password)
+    const newUser = {
+      PhoneNumber,
+      salt: user.salt,
+      hashed: user.hashed,
+      LastName,
+      FirstName,
+    }
     const result = await User.findByIdAndUpdate(userID, newUser)
     return res.status(200).json({ success: true })
   } catch (err) {
+    console.log(err)
     res.status(500).json({ error: err })
   }
 }
+// const updateUser = async (req, res, next) => {
+//   try {
+//     const { userID } = req.params
+//     const newUser = req.body
+//     const result = await User.findByIdAndUpdate(userID, newUser)
+//     return res.status(200).json({ success: true })
+//   } catch (err) {
+//     res.status(500).json({ error: err })
+//   }
+// }
 
 const signUp = async (req, res, next) => {
   // console.log('call to signup')
-  const { PhoneNumber, Password, FirstName, LastName } = req.value.body
+  const { PhoneNumber, Password, FirstName, LastName } = req.body
   // check if there is a user with the same user
   const foundUser = await User.findOne({ PhoneNumber })
   // console.log('found user', foundUser)
@@ -86,7 +96,7 @@ const signUp = async (req, res, next) => {
 
 const signIn = async (req, res, next) => {
   // console.log('call to signin')
-  const { PhoneNumber, Password } = req.value.body
+  const { PhoneNumber, Password } = req.body
   console.log(PhoneNumber, Password)
   const newUser = await AuthController.signInAuth(PhoneNumber, Password)
 
@@ -105,7 +115,7 @@ module.exports = {
   index,
   newUser,
   getUser,
-  replaceUser,
+  // replaceUser,
   updateUser,
   signUp,
   signIn,

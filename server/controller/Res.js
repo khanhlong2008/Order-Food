@@ -14,7 +14,7 @@ const CreateRes = async (req, res) => {
 }
 const getRes = async (req, res, next) => {
   try {
-    const { restaurantID } = req.value.params
+    const { restaurantID } = req.params
     const ress = await Restaurant.findById(restaurantID)
     return res.status(200).json({ ress })
   } catch (err) {
@@ -25,22 +25,22 @@ const index = async (req, res) => {
     const ress = await Restaurant.find({})
     return res.status(200).json({ ress })
 }
-const replaceRes = async (req, res) => {
+// const replaceRes = async (req, res) => {
 
-  try {
-    const { restaurantID } = req.value.params;
-    const newRestaurant = req.body;
+//   try {
+//     const { restaurantID } = req.value.params;
+//     const newRestaurant = req.body;
 
-    const result = await Restaurant.findByIdAndUpdate(restaurantID, newRestaurant)
-  return res.status(200).json({ success: true })
-  } catch (err) {
-    res.status(500).json({ error: err })
-  }
-};
+//     const result = await Restaurant.findByIdAndUpdate(restaurantID, newRestaurant)
+//   return res.status(200).json({ success: true })
+//   } catch (err) {
+//     res.status(500).json({ error: err })
+//   }
+// };
 const updateRes = async (req, res) => {
 
   try {
-    const { restaurantID } = req.value.params
+    const { restaurantID } = req.params
     const newRestaurant = req.body
 
     const result = await Restaurant.findByIdAndUpdate(restaurantID, newRestaurant)
@@ -49,4 +49,4 @@ const updateRes = async (req, res) => {
     res.status(500).json({ error: err })
   }
 };
-module.exports = { index, replaceRes, updateRes, CreateRes, getRes }
+module.exports = { index, updateRes, CreateRes, getRes }

@@ -1,6 +1,6 @@
 const router = require("express-promise-router")()
 const RestaurantController = require('../controller/Res')
-const { validateBody, validateParam, schemas } = require('../helpers/routerHelpers')
+// const { validateBody, validateParam, schemas } = require('../helpers/routerHelpers')
 
 
 router.route('/')
@@ -9,8 +9,8 @@ router.route('/')
 
 
 router.route('/:restaurantID')
-  .get(validateParam(schemas.isSchema, 'restaurantID'), RestaurantController.getRes)
-  .put(validateParam(schemas.isSchema, 'restaurantID'), RestaurantController.replaceRes)
-  .patch(validateParam(schemas.isSchema, 'restaurantID'), RestaurantController.updateRes)
+  .get(RestaurantController.getRes)
+  .put(RestaurantController.updateRes)
+  // .patch(validateParam(schemas.isSchema, 'restaurantID'), RestaurantController.updateRes)
 
 module.exports = router;
