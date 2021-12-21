@@ -2,11 +2,11 @@ const express = require('express');
 const dotenv = require('dotenv');
 const cors = require('cors');
 const mongoose = require('mongoose');
-
-const Bill = require('./Routes/Bill')
-const Res = require('./Routes/Res');
-const User = require('./Routes/User')
-const Auth = require('./Routes/auth')
+const orderFood = require('./Routes');
+// const Bill = require('./Routes/Bill')
+// const Res = require('./Routes/Res');
+// const User = require('./Routes/User')
+// const Auth = require('./Routes/auth')
 dotenv.config();
 
 const app = express();
@@ -17,12 +17,12 @@ app.use(cors({
 }));
 app.use(express.json())
 
+app.use("/orderfood", orderFood)
 
-
-app.use('/auth', Auth)
-app.use('/user', User)
-app.use('/bill', Bill)
-app.use('/restaurant', Res)
+// app.use('/auth', Auth)
+// app.use('/user', User)
+// app.use('/bill', Bill)
+// app.use('/restaurant', Res)
 
 mongoose
   .connect('mongodb://localhost:27017/orderfood',
