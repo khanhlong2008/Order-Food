@@ -10,9 +10,23 @@ router.route('/')
 router.route('/:userID')
   .get(UserController.getUser)
   .put(UserController.updateUser)
+
+
+
   // .patch(UserController.updateUser)
   // .put(validateParam(schemas.isSchema, 'userID'), validateBody(schemas.userSchema), UserController.replaceUser)
   // .patch(validateParam(schemas.isSchema, 'userID'), validateBody(schemas.userOptionalSchema), UserController.updateUser)
 
 
+
+
+
+
 module.exports = router 
+
+
+
+
+
+
+

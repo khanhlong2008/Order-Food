@@ -26,7 +26,7 @@ const newBill = async (req, res) => {
       const newBill = new Bill(req.body);
         await newBill.save();
 
-      return res.status(201).json({ bill: newBill })
+      return res.status(201).json(newBill)
     } catch (err) {
       console.log(err)
         res.status(500).json({ error: err })

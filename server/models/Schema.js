@@ -24,10 +24,11 @@ const UserSchema = new mongoose.Schema({
     type: String
   },
   Role: {
-    User: { type: Number, },
-    Driver: { type: Number, }
+    User: { type: Boolean, },
+    Driver: { type: Boolean, }
   },
   address: {
+    fullAddress: String,
     long: Number,
     lat: Number,
   },
@@ -46,7 +47,10 @@ const RestaurantSchema = new mongoose.Schema({
     type: String
   },
   Opentime: {
-    type: String
+    type: Date
+  },
+  Closetime: {
+    type: Date
   },
   Food: [
     {
@@ -76,44 +80,56 @@ const RestaurantSchema = new mongoose.Schema({
 const Restaurant = mongoose.model('Restaurant', RestaurantSchema);
 
 const BillingSchema = new mongoose.Schema({
+
   UserID: {
-    type: String,
+    type: mongoose.Schema.ObjectId,
+    required: true
   },
   RestaurantID: {
-    type: String,
-    unique: true
+    type: mongoose.Schema.ObjectId,
+    required: true
   },
   DriverID: {
-    type: String,
+    type: mongoose.Schema.ObjectId,
+    required: true
   },
   Food: [
     {
       FoodName:
       {
-        type: String
-      },
-      Price: {
-        type: Number
-      },
-      Description: {
-        type: String
-      },
-      Amout: {
-        type: Number
-      },
-      Cash: {
-        type: Number
+          type: String,
+          required: true
+        },
+        Price: {
+          type: Number,
+          required: true
+        },
+        Description: {
+          type: String,
+          required: true
+        },
+        Amout: {
+        type: Number,
+        required: true
       }
     }
   ],
+  Cash: {
+    type: Number,
+    required: true
+  },
   Status: {
-    type: String
+    type: String,
+    required: true
   },
   Rate: {
     type: Number,
-    default: 0
+    required: true
   },
-}, {
+
+}
+
+  , {
   timestamps: {
     createdAt: 'created_at',
     updatedAt: 'updated_at'

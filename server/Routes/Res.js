@@ -5,12 +5,11 @@ const RestaurantController = require('../controller/Res')
 
 router.route('/')
   .get(RestaurantController.index)
-  .post(RestaurantController.CreateRes)
+  // .post(RestaurantController.CreateRes)
 
 
 router.route('/:restaurantID')
   .get(RestaurantController.getRes)
   .put(RestaurantController.updateRes)
-  // .patch(validateParam(schemas.isSchema, 'restaurantID'), RestaurantController.updateRes)
-
+// router.route('/:restaurantID/:foodID').get(RestaurantController.getResByFoodID)
 module.exports = router;

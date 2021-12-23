@@ -30,9 +30,28 @@ const index = async (req, res, next) => {
 
 const newUser = async (req, res, next) => { 
     try {
-      const newUser = new User(req.body)
-        await newUser.save();
-        return res.status(201).json({ user: newUser })
+      const { PhoneNumber, Password, FirstName, LastName, address, Role, AvatarURL } = req.body;
+      const foundUser = await User.findOne({ PhoneNumber });
+      if (foundUser) return res.status(403).json({ error: { message: "PhoneNumber is alrady is use" } });
+      const user = await AuthController.signUpAuth(PhoneNumber, Password);
+      const newUser = new User({
+        PhoneNumber,
+        salt: user.salt,
+        hashed: user.hashed,
+        FirstName,
+        LastName,
+        address,
+        Role,
+        AvatarURL
+      })
+      newUser.save();
+      const token = encodeToken(newUser._id);
+      res.setHeader('Authorization', token)
+      return res.status(201).json({ success: true, user: newUser.firstname })
+      // newUser.save();
+      // const newUser = new User(req.body)
+      //   await newUser.save();
+      //   return res.status(201).json({ user: newUser })
     }
     catch (err) {
       console.log(err)
@@ -43,7 +62,7 @@ const updateUser = async (req, res, next) => {
   try {
     const { userID } = req.params
     // const newUser = req.body
-    const { PhoneNumber, Password, FirstName, LastName } = req.body
+    const { PhoneNumber, Password, FirstName, LastName, address, Role, AvatarURL } = req.body
     const user = await AuthController.updatePassword(PhoneNumber, Password)
     const newUser = {
       PhoneNumber,
@@ -51,24 +70,20 @@ const updateUser = async (req, res, next) => {
       hashed: user.hashed,
       LastName,
       FirstName,
+      address,
+      Role,
+      AvatarURL
     }
     const result = await User.findByIdAndUpdate(userID, newUser)
+    if (!result) return res.status(403).json({ error: { message: "userID is alrady is use" } });
+
     return res.status(200).json({ success: true })
   } catch (err) {
     console.log(err)
     res.status(500).json({ error: err })
   }
 }
-// const updateUser = async (req, res, next) => {
-//   try {
-//     const { userID } = req.params
-//     const newUser = req.body
-//     const result = await User.findByIdAndUpdate(userID, newUser)
-//     return res.status(200).json({ success: true })
-//   } catch (err) {
-//     res.status(500).json({ error: err })
-//   }
-// }
+
 
 const signUp = async (req, res, next) => {
   // console.log('call to signup')
@@ -103,7 +118,7 @@ const signIn = async (req, res, next) => {
   const token = encodeToken(req._id)
 
   res.setHeader('Authorization', token)
-  return res.status(200).json({ success: true })
+  return res.status(200).json({ success: true, token: token })
 }
 
 const secret = async (req, res, next) => {
@@ -115,7 +130,6 @@ module.exports = {
   index,
   newUser,
   getUser,
-  // replaceUser,
   updateUser,
   signUp,
   signIn,
